@@ -9,10 +9,10 @@ export CTPATH=${HOME}/crosstool-ng
 export CTSTAGINGDIR=${HOME}/staging
 
 # this should work well for a Raspberry Pi
-export CTCONFIG=/vagrant/ct-ng-configs/linaro-raspbian-201409-modified.config
-# export CTCONFIG=/vagrant/ct-ng-configs/xtools-dotconfig-v6.archlinux.config
+export CTCONFIG=/vagrant/ctng-configs/linaro-raspbian-201409-modified.config
+# export CTCONFIG=/vagrant/ctng-configs/xtools-dotconfig-v6.archlinux.config
 
-# if you change this, be sure to adjust the ct-ng config
+# if you change this, be sure to adjust the ctng config
 export XTPATH=${HOME}/x-tools6h
 
 # path to prebuilt x-tools, rather than building
@@ -40,7 +40,7 @@ updateInstallDeps() {
   sudo apt-get -qq upgrade -y
   sudo apt-get -qq install -y tmux vim htop # comfort
   sudo apt-get -qq install -y curl wget build-essential git cvs subversion # essential
-  sudo apt-get -qq install -y libncurses5-dev automake libtool bison flex texinfo gawk gcj-jdk libexpat1-dev python-dev gperf # texlive # ct-ng deps (texlive only for manuals)
+  sudo apt-get -qq install -y libncurses5-dev automake libtool bison flex texinfo gawk gcj-jdk libexpat1-dev python-dev gperf # texlive # ctng deps (texlive only for manuals)
   echo ">>> Updating system and installing dependencies: done!"
 }
 
