@@ -7,18 +7,6 @@ This project is meant to help: Using [VirtualBox](https://www.virtualbox.org/), 
 
 Sound good? Let’s make it happen. Contributions very welcome.
 
-Goal
-----
-
-My intention is to provide a beginner-friendly tool, useable without deep knowledge of the involved tools. 
-Using a provisioning tool like Ansible has several advantages:
-
-- fully automated setup and configuration,
-- maintainability and adaptability,
-- transparent, precise documentation of all steps involved.
-
-You can simply treat the resulting setup as a black box, but if curiosity (or necessity) strikes, you can look at its blueprints — and change them.
-
 Status
 ------
 
@@ -37,7 +25,7 @@ Usage
 
 First of all, install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](http://www.vagrantup.com/downloads), and [Ansible](http://docs.ansible.com/intro_installation.html). (On Mac OS, all three are available as homebrews/casks.)
 
-Now clone the `rpi-cross` repo:
+Then clone the `rpi-cross` repo:
 
 ```sh
 cd some/folder
@@ -53,7 +41,7 @@ First, take a look at the [Vagrantfile](https://github.com/tjanson/rpi-cross/blo
 
 Done? We’ll continue our tour with `provisioning/playbook.yml`. This is the meats: a list of state descriptions and commands that Ansible will execute automatically during “provisioning”.
 
-There are basically three tasks (besides some basic system maintenance), listed under [`tasks` (line 40)](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml#L40):
+These tasks, listed under [`tasks` (line 40)](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml#L40), perfom three functions (besides some basic system maintenance):
 
 - installing crosstool-NG and building a toolchain based on a CTNG config file
 - unpacking a prebuilt toolchain
@@ -138,3 +126,15 @@ This program won’t run in the VM — it’s for the Pi! Note the “ARM”. Yo
 ### Using distcc
 
 TODO.
+
+Project Goal
+------------
+
+My intention is to provide a beginner-friendly tool, useable without deep knowledge of the involved tools. 
+Using a provisioning tool like Ansible has several advantages:
+
+- fully automated setup and configuration,
+- maintainability and adaptability,
+- transparent, precise documentation of all steps involved.
+
+You can simply treat the resulting setup as a black box, but if curiosity (or necessity) strikes, you can look at its blueprints — and change them.
