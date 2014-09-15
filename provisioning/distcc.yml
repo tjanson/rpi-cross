@@ -1,0 +1,18 @@
+---
+ - name: install distcc
+   apt:  name=distcc
+
+ - name: open up distccd
+   lineinfile: dest=/etc/default/distcc regexp={{ item.regexp }} line={{ item.line }}
+   with_items:
+     - { regexp: '^STARTDISTCC=', line: 'STARTDISTCC="true"' }
+     - { regexp: '^ALLOWEDNETS=', line: 'ALLOWEDNETS={{distcc_allowednets}}' }
+     - { regexp: '^LISTENER=',    line: 'LISTENER=""' }
+
+ - name: add tupleless bin dir to distccd PATH to fool it into using them
+   lineinfile: 'dest=/etc/init.d/distcc
+                regexp="PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+                line="PATH={{ toolchain_dir }}/bin-tupleless:{{ toolchain_dir }}/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"'
+
+ - name: enable and (re)start distcc daemon
+   service: name=distcc enabled=yes state=restarted

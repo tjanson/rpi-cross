@@ -1,0 +1,69 @@
+---
+
+ - name: install crosstool-NG deps
+   apt:  name={{ item }}
+   sudo: yes
+   with_items:
+     - bison
+     - libncurses5-dev
+     - flex
+     - texinfo
+     - libtool
+     - automake
+     - gawk
+
+ # not sure if (or when) these are necessary
+ # if you think you won't use the corresponding crosstool-NG features,
+ # try going without and install only when ct-ng complains
+#- name: install crosstool-NG optional deps
+#  apt:  name={{ item }}
+#  sudo: yes
+#  with_items:
+#    - gcj-jdk
+#    - libexpat1-dev
+#    - python-dev
+#    - gperf
+#    - texlive
+#  tags:
+#    - ctng_optional_deps
+
+ - name: download crosstool-NG tarball
+   get_url: dest={{ ctng_dir }}/{{ ctng_url | basename }} url={{ ctng_url }}
+
+ - name: extract crosstool-NG
+   unarchive: copy=no src={{ ctng_dir }}/{{ ctng_url | basename }} dest={{ ctng_dir }}
+
+ - name: configure and make (not install) crosstool-NG
+   shell: "{{ item }}"
+   args:
+     chdir: "{{ ctng_dir }}/{{ ctng_url | basename | regex_replace('.tar.(gz|xz|bz2)$', '') }}"
+     creates: MAKE_PASSED
+   with_items:
+     - ./configure --prefix={{ ctng_dir }}
+     - make
+     - touch MAKE_PASSED
+
+ - name: make install crosstool-NG
+   shell: "{{ item }}"
+   sudo: yes
+   args:
+     chdir: "{{ ctng_dir }}/{{ ctng_url | basename | regex_replace('.tar.(gz|xz|bz2)$', '') }}"
+     creates: INSTALL_PASSED
+   with_items:
+     - make install
+     - cp ct-ng.comp /etc/bash_completion.d/
+     - touch INSTALL_PASSED
+
+ - name: prepend crosstool-NG bin to PATH
+   lineinfile: 'dest=/home/vagrant/.bashrc line="export PATH={{ ctng_dir }}/bin:$PATH"'
+
+ - name: build toolchain (takes a long time! like, really)
+   shell: "{{ item }} chdir={{ ctng_staging_dir }}"
+   args:
+     creates: BUILD_PASSED
+   with_items:
+       - cp "{{ ctng_config }}" .config
+       - "{{ ctng_dir}}/bin/ct-ng build"
+       - touch BUILD_PASSED
+   tags:
+     - build_toolchain

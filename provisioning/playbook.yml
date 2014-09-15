@@ -1,0 +1,104 @@
+---
+- hosts: all
+  remote_user: vagrant
+
+  vars:
+    ctng_dir:         "/home/vagrant/crosstool-ng" # ctng download,install dir
+    ctng_staging_dir: "/home/vagrant/staging"      # ctng toolchain staging folder
+    toolchain_dir:    "/home/vagrant/x-tools6h"    # DONT CHANGE, toolchain folder
+
+    # feel free to substitute newer (or entirely different) versions
+    ctng_version: "linaro-1.13.1-4.9-2014.08"
+    ctng_url:     "https://releases.linaro.org/latest/components/toolchain/binaries/crosstool-ng-{{ ctng_version }}.tar.bz2"
+
+    # crosstool-NG config files for building the tc
+    ctng_config: "/vagrant/ct-ng-configs/linaro-arm-linux-gnueabihf-raspbian.201408.modified.config"
+#   ctng_config: "/vagrant/ct-ng-configs/linaro-arm-linux-gnueabihf-raspbian.201408.config"
+#   ctng_config: "/vagrant/ct-ng-configs/xtools-dotconfig-v6.archlinux.config"
+
+    # whether for convenience or stability, here some prebuilt tcs
+    prebuilt_xt: "/vagrant/prebuilt-toolchains/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
+#   prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz"
+#   prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux.tar.xz"
+#   prebuilt_xt: "/vagrant/prebuilt-toolchains/x-tools6h.archlinux.tar.xz"
+
+    # allowed nets for distcc connection (potential security risk!)
+    distcc_allowednets: "192.168.0.0/16" # wide open
+
+  vars_prompt:
+    - name:    "custom_build"
+      prompt:  "Hi!
+
+First off, I recommend you take a look at `provisioning/playbook.yml` before proceeding to get an idea what's going to happen.
+
+If you want to build a custom toolchain using the settings in the playbook, (blindly) type `yes` and hit Enter... You should know what you're getting into; this will take a while.
+
+Otherwise, just hit Enter and the Raspbian Linaro toolchain tarball will be used."
+      default: no
+      private: yes
+ 
+  tasks:
+    - name:  fix trusty/Vagrant issue 3860
+      shell: 'sed --in-place -e "s:post-up route del default dev \\$IFACE$:post-up route del default dev \\$IFACE || true:g" /etc/network/interfaces'
+      sudo:  yes
+
+    - name: dist-upgrade system
+      apt:  upgrade=dist update_cache=yes
+      sudo: yes
+
+    - name: install useful (but non-required) tools
+      apt:  name={{ item }}
+      sudo: yes
+      with_items:
+        - tmux
+        - vim
+        - htop
+
+    - name: install essentials build, VCSs
+      apt:  name={{ item }}
+      sudo: yes
+      with_items:
+        - curl
+        - wget
+        - build-essential
+        - git
+        - cvs
+        - subversion
+
+    - name: create folders
+      file: path={{ item }} state=directory owner=vagrant group=vagrant
+      sudo: yes
+      with_items:
+        - "{{ ctng_dir }}"
+        - "{{ ctng_staging_dir }}"
+        - "{{ ctng_staging_dir }}/tarballs"
+        - "{{ toolchain_dir }}"
+        - "{{ toolchain_dir }}/arm-linux-gnueabihf"
+
+    # install crosstool-NG and build toolchain based on specified config file
+    # this can take ~1h (don't be surprised), and you will unfortunately get
+    # much feedback in between. just have lunch and see how it goes...
+    - include: ctng.yml
+      when: custom_build | bool
+
+    # alternatively, and default-ively, extract the specified prebuilt tc
+    - name: extract prebuilt toolchain
+      unarchive: copy=no src={{ prebuilt_xt}} dest=/home/vagrant/
+      when: not custom_build | bool
+
+    # intentionally not added to PATH; intended for distccd's path
+    - name: create tupleless bin directory with links to real tools
+      shell: "mkdir bin-tupleless;
+             for file in $(ls bin); do
+               ln -s ../bin/$file bin-tupleless/${file#arm-linux-gnueabihf-};
+             done"
+      args:
+        chdir: "{{ toolchain_dir }}"
+        creates: "{{ toolchain_dir }}/bin-tupleless"
+
+    - name: prepend toolchain bin dir to PATH
+      lineinfile: 'dest=/home/vagrant/.bashrc line="export PATH={{ toolchain_dir }}/bin:$PATH"'
+
+    # install, configure, enable, and start distcc daemon
+    - include: distcc.yml
+      sudo: yes
