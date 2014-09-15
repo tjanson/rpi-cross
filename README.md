@@ -73,7 +73,7 @@ Now download the toolchain we selected. You don’t need to unpack it.
 
 ```sh
 cd prebuilt-toolchains
-wget url-to-default-xt-FIXME
+wget https://github.com/tjanson/rpi-cross/releases/download/v0.1/gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz
 cd ..
 ```
 
