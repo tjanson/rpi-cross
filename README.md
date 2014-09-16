@@ -7,6 +7,7 @@ This project is meant to help: Using [VirtualBox](https://www.virtualbox.org/), 
 
 Sound good? Let’s make it happen. Contributions very welcome.
 
+
 Status
 ------
 
@@ -18,8 +19,24 @@ Status
 
 All of these work for me, but I’m sure there are plenty of kinks to work out. Whatever your experience, please do provide feedback! :)
 
-Usage
------
+
+Quickstart
+----------
+
+If you know what you want, this will probably be enough get you going. If not, please follow the Guide below.
+
+- dependencies: [Vagrant](http://www.vagrantup.com/downloads) with VirtualBox, [Ansible](http://docs.ansible.com/intro_installation.html)
+- choose between building your own toolchain with crosstool-NG, or use a prebuilt one:
+  - option A: download [the prebuilt toolchain](https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz)
+  - option B: choose a crosstool-NG [configuration file](https://github.com/tjanson/rpi-cross/tree/master/ctng-configs) or create your own
+- modify `ctng_*` or `xt_prebuilt` in Ansible’s [`playbook.yml`](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml) to point to the files of the previous step
+- `vagrant up`
+
+Note that the custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback. Go have a coffee, and hopefully you’ll come back to find your toolchain in `~/x-tools6h` and distcc set up and running.
+
+
+Usage Guide
+-----------
 
 ### Preparation
 
@@ -125,6 +142,7 @@ This program won’t run in the VM — it’s for the Pi! Note the “ARM”. Yo
 ### Using distcc
 
 TODO.
+
 
 Project Goal
 ------------
