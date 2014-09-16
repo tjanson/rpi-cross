@@ -18,7 +18,6 @@
 
     # whether for convenience or stability, here some prebuilt tcs
     prebuilt_xt: "/vagrant/prebuilt-toolchains/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
-#   prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz"
 #   prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux.tar.xz"
 #   prebuilt_xt: "/vagrant/prebuilt-toolchains/x-tools6h.archlinux.tar.xz"
 
