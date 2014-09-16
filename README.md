@@ -18,8 +18,6 @@ Status
 
 All of these work for me, but I’m sure there are plenty of kinks to work out. Whatever your experience, please do provide feedback! :)
 
-**2014-09-16: I haven’t uploaded the prebuilt toolchains yet. The following guide won’t work!** I’m on it, but Github’s upload is surprisingly finicky.
-
 Usage
 -----
 
@@ -74,7 +72,7 @@ Now download the toolchain tarball. You don’t need to unpack it.
 
 ```sh
 cd prebuilt-toolchains
-wget FIXME-url-here
+wget https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz
 cd ..
 ```
 
