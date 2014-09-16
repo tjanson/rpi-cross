@@ -18,6 +18,8 @@ Status
 
 All of these work for me, but I’m sure there are plenty of kinks to work out. Whatever your experience, please do provide feedback! :)
 
+**2014-09-16: I haven’t uploaded the prebuilt toolchains yet. The following guide won’t work!** I’m on it, but Github’s upload is surprisingly finicky.
+
 Usage
 -----
 
@@ -54,26 +56,25 @@ If you don’t know what any of this means, the following should suffice:
 A toolchain is a set of programs working together to compile software for a certain target architecture, in this case our Raspberry Pi. One of these tools is the `gcc` compiler, which you probably use on your Pi, but quite a few others are needed in the background.
 The [crosstool-NG docs](http://crosstool-ng.org/hg/crosstool-ng/raw-file/069f43a215cc/docs/9%20-%20How%20is%20a%20toolchain%20constructed.txt) explain toolchains in detail.
 
-Unpacking the `gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz` is the most conservative option (and, incidentally, fairly convenient). We’ll use it for this guide.
+Unpacking `linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz` is a convenient option, based on the official Raspbian Linaro toolchain, but updated with more recent (possibly unstable) tools. We’ll use it for this guide.
 
 Back at the top of the file, the `vars` section defines various paths and source files. (Again: The `ctng` options are for custom building only.)
 
-Select the official-ish Linaro/Raspbian toolchain from February 2014 by uncomment the corresponding `prebuilt_xt: ...` line, and commenting out the other three:
+The desired toolchain is already selected:
 
 ```yml
-# prebuilt_xt: "/vagrant/prebuilt-toolchains/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
-  prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz"
+  prebuilt_xt: "/vagrant/prebuilt-toolchains/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
 # prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux.tar.xz"
 # prebuilt_xt: "/vagrant/prebuilt-toolchains/x-tools6h.archlinux.tar.xz"
 ```
 
 ### Download a prebuilt toolchain
 
-Now download the toolchain we selected. You don’t need to unpack it.
+Now download the toolchain tarball. You don’t need to unpack it.
 
 ```sh
 cd prebuilt-toolchains
-wget https://github.com/tjanson/rpi-cross/releases/download/v0.1/gcc-linaro-arm-linux-gnueabihf-raspbian.201402.tar.gz
+wget FIXME-url-here
 cd ..
 ```
 
