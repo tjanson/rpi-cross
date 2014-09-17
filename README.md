@@ -139,7 +139,7 @@ hello: ELF 32-bit LSB  relocatable, ARM, EABI5 version 1 (SYSV), not stripped
 
 This program won’t run in the VM — it’s for the Pi! Note the “ARM”. You may copy it to your Pi (`scp` is cool), and try it.
 
-### Using distcc to delegete compilation from our Pi
+### Using distcc to delegate compilation from our Pi
 
 Finally, you can use distcc to off-load compilation from your Pi to the `rpi-cross` VM.
 We’ll try a real world example: Compiling [Node.js](http://www.nodejs.org/).
