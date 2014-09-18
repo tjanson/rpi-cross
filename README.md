@@ -132,9 +132,9 @@ int main() {
 }
 ```
 
-Cross-compile it with `arm-linux-gnueabihf-gcc -c hello.c -o hello`, and check `file hello`:
+Cross-compile it with `arm-linux-gnueabihf-gcc hello.c -o hello`, and check `file hello`:
 ```
-hello: ELF 32-bit LSB  relocatable, ARM, EABI5 version 1 (SYSV), not stripped
+hello: ELF 32-bit LSB  executable, ARM, EABI5 …
 ```
 
 This program won’t run in the VM — it’s for the Pi! Note the “ARM”. You may copy it to your Pi (`scp` is cool), and try it.
