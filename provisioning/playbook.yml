@@ -13,13 +13,12 @@
 
     # crosstool-NG config files for building the tc
     ctng_config: "/vagrant/ctng-configs/linaro-arm-linux-gnueabihf-raspbian.201408.modified.config"
-#   ctng_config: "/vagrant/ctng-configs/linaro-arm-linux-gnueabihf-raspbian.201408.config"
-#   ctng_config: "/vagrant/ctng-configs/xtools-dotconfig-v6.archlinux.config"
 
     # whether for convenience or stability, here some prebuilt tcs
     prebuilt_xt: "/vagrant/prebuilt-toolchains/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
-#   prebuilt_xt: "/vagrant/prebuilt-toolchains/gcc-linaro-arm-linux-gnueabihf-4.9-2014.08_linux.tar.xz"
-#   prebuilt_xt: "/vagrant/prebuilt-toolchains/x-tools6h.archlinux.tar.xz"
+
+    # if not already present, download from this url
+    prebuilt_xt_url: "https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz"
 
     # allowed nets for distcc connection (potential security risk!)
     distcc_allowednets: "192.168.0.0/16" # wide open
@@ -80,7 +79,11 @@ Otherwise, just hit Enter and the Raspbian Linaro toolchain tarball will be used
     - include: ctng.yml
       when: custom_build | bool
 
-    # alternatively, and default-ively, extract the specified prebuilt tc
+    # alternatively, and default-ively, download & extract prebuilt tc
+    - name: download prebuilt toolchain
+      get_url: dest={{ prebuilt_xt }} url={{ prebuilt_xt_url }}
+      when: not custom_build | bool
+
     - name: extract prebuilt toolchain
       unarchive: copy=no src={{ prebuilt_xt}} dest=/home/vagrant/
       when: not custom_build | bool

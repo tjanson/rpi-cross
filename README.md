@@ -26,13 +26,20 @@ Quickstart
 If you know what you want, this will probably be enough get you going. If not, please follow the Guide below.
 
 - dependencies: [Vagrant](http://www.vagrantup.com/downloads) with VirtualBox, [Ansible](http://docs.ansible.com/intro_installation.html)
-- choose between building your own toolchain with crosstool-NG, or use a prebuilt one:
-  - option A: download [the prebuilt toolchain](https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz)
-  - option B: choose a crosstool-NG [configuration file](https://github.com/tjanson/rpi-cross/tree/master/ctng-configs) or create your own
-- modify `ctng_*` or `xt_prebuilt` in Ansible’s [`playbook.yml`](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml) to point to the files of the previous step
-- `vagrant up`
+- choose between building your own toolchain with crosstool-NG, or using a prebuilt one:
 
-Note that the custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback. Go have a coffee, and hopefully you’ll come back to find your toolchain in `~/x-tools6h` and distcc set up and running.
+  - option A (*default*): [the prebuilt toolchain](https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz) will be downloaded automatically
+
+    Note: If you substitute your own tarball, make sure to match the folder structure.
+
+  - option B: choose a crosstool-NG [configuration file](https://github.com/tjanson/rpi-cross/tree/master/ctng-configs) or create your own
+
+    Note: The custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback. Go have a coffee, and hopefully you’ll come back to find your toolchain in `~/x-tools6h` and distcc set up and running.
+
+- modify `ctng_*` or `xt_prebuilt[_url]` in Ansible’s [`playbook.yml`](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml) to according to your choices of the previous step
+- `vagrant up` to set up and start the VM
+
+You can now `vagrant ssh` into the machine and inspect the results: The toolchain is in `~/x-tools6h`, the distcc daemon is running and open for connections from `192.168../16`.
 
 
 Usage Guide
