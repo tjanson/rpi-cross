@@ -1,12 +1,18 @@
 rpi-cross
 =========
 
-There are plenty of good things to say about the [Raspberry Pi](http://www.raspberrypi.org/help/what-is-a-raspberry-pi/), but there’s one thing I could do without: Waiting for compilation! The venerable Pi’s ARM11 is showing its age …
+There are plenty of good things to say about the [Raspberry Pi][rpi-intro], but there’s one thing I could do without: Waiting for compilation! The venerable Pi’s ARM11 is showing its age …
 
-This project is meant to help: Using [VirtualBox](https://www.virtualbox.org/), [Vagrant](https://github.com/mitchellh/vagrant), [crosstool-NG](http://crosstool-ng.org/), and [Ansible](https://github.com/ansible/ansible), `rpi-cross` will automatically set up an Ubuntu VM with a cross compilation toolchain optimized for Raspberry Pi and a [distcc](https://code.google.com/p/distcc/) server, ready to cross compile both locally and over the network.
+This project is meant to help: Using [VirtualBox][], [Vagrant][], [crosstool-NG][], and [Ansible][], `rpi-cross` will automatically set up an Ubuntu VM with a cross compilation toolchain optimized for Raspberry Pi and a [distcc][] daemon, ready to cross compile both locally and over the network.
 
 Sound good? Let’s make it happen. Contributions very welcome.
 
+[rpi-intro]:    http://www.raspberrypi.org/help/what-is-a-raspberry-pi/
+[VirtualBox]:   https://www.virtualbox.org/
+[Vagrant]:      https://github.com/mitchellh/vagrant
+[crosstool-NG]: http://crosstool-ng.org/
+[Ansible]:      https://github.com/ansible/ansible
+[distcc]:       https://code.google.com/p/distcc/
 
 Status
 ------
@@ -25,21 +31,23 @@ Quickstart
 
 If you know what you want, this will probably be enough get you going. If not, please follow the Guide below.
 
-- dependencies: [Vagrant](http://www.vagrantup.com/downloads) with VirtualBox, [Ansible](http://docs.ansible.com/intro_installation.html)
+- dependencies: [Vagrant][vagrant-dl] with VirtualBox, [Ansible][ansible-dl]
 - choose between building your own toolchain with crosstool-NG, or using a prebuilt one:
-
-  - option A (*default*): [the prebuilt toolchain](https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz) will be downloaded automatically
-
-    Note: If you substitute your own tarball, make sure to match the folder structure.
-
-  - option B: choose a crosstool-NG [configuration file](https://github.com/tjanson/rpi-cross/tree/master/ctng-configs) or create your own
-
-    Note: The custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback. Go have a coffee, and hopefully you’ll come back to find your toolchain in `~/x-tools6h` and distcc set up and running.
-
-- modify `ctng_*` or `xt_prebuilt[_url]` in Ansible’s [`playbook.yml`](https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml) to according to your choices of the previous step
+  - option A (*default*): [the prebuilt toolchain][prebuilt-dl] will be downloaded automatically  
+    If you substitute your own tarball, make sure to match the folder structure.
+  - option B: choose a crosstool-NG [configuration file][ctng-confs] or create your own  
+- modify `ctng_*` or `xt_prebuilt[_url]` in Ansible’s [`playbook.yml`][playbook] to according to your choices of the previous step
 - `vagrant up` to set up and start the VM
 
-You can now `vagrant ssh` into the machine and inspect the results: The toolchain is in `~/x-tools6h`, the distcc daemon is running and open for connections from `192.168../16`.
+(Note: The custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback: Ansible doesn’t show the client’s `stdout`. You could monitor the CPU usage, but that’s not very satisfying. You’ll just have to wait it out.)
+
+Now, `vagrant ssh` into the machine and inspect the results: If all went well, you’ll fint the toolchain in `~/x-tools6h`, and the distcc daemon is running and open for connections from `192.168../16`.
+
+[vagrant-dl]:  http://www.vagrantup.com/downloads
+[ansible-dl]:  http://docs.ansible.com/intro_installation.html
+[prebuilt-dl]: https://github.com/tjanson/rpi-cross/releases/download/v0.1/linaro-arm-linux-gnueabihf-raspbian.201408.modified.tar.xz
+[ctng-confs]:  https://github.com/tjanson/rpi-cross/tree/master/ctng-configs
+[playbook]:    https://github.com/tjanson/rpi-cross/blob/master/provisioning/playbook.yml
 
 
 Usage Guide
