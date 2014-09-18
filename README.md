@@ -41,7 +41,7 @@ If you know what you want, this will probably be enough get you going. If not, p
 
 (Note: The custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback: Ansible doesn’t show the client’s `stdout`. You could monitor the CPU usage, but that’s not very satisfying. You’ll just have to wait it out.)
 
-Now, `vagrant ssh` into the machine and inspect the results: If all went well, you’ll fint the toolchain in `~/x-tools6h`, and the distcc daemon is running and open for connections from `192.168../16`.
+Now, `vagrant ssh` into the machine and inspect the results: If all went well, you’ll find the toolchain in `~/x-tools6h`, and the distcc daemon is running and open for connections from `192.168../16`.
 
 [vagrant-dl]:  http://www.vagrantup.com/downloads
 [ansible-dl]:  http://docs.ansible.com/intro_installation.html
