@@ -36,7 +36,7 @@ If you know what you want, this will probably be enough get you going. If not, p
   - option A (*default*): [the prebuilt toolchain][prebuilt-dl] will be downloaded automatically  
     If you substitute your own tarball, make sure to match the folder structure.
   - option B: choose a crosstool-NG [configuration file][ctng-confs] or create your own  
-- modify `ctng_*` or `xt_prebuilt[_url]` in Ansible’s [`playbook.yml`][playbook] to according to your choices of the previous step
+- modify `ctng_*` or `xt_prebuilt[_url]` in Ansible’s [`playbook.yml`][playbook] according to your choices of the previous step
 - `vagrant up` to set up and start the VM
 
 (Note: The custom build takes quite a long time (~40 min on my machine) and unfortunately offers little feedback: Ansible doesn’t show the client’s `stdout`. You could monitor the CPU usage, but that’s not very satisfying. You’ll just have to wait it out.)
