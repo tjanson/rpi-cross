@@ -14,6 +14,7 @@ Sound good? Let’s make it happen. Contributions very welcome.
 [Ansible]:      https://github.com/ansible/ansible
 [distcc]:       https://code.google.com/p/distcc/
 
+
 Status
 ------
 
@@ -26,12 +27,23 @@ Status
 All of these work for me, but I’m sure there are plenty of kinks to work out. Whatever your experience, please do provide feedback! :)
 
 
+Requirements
+------------
+
+- [Vagrant](http://www.vagrantup.com/downloads) with VirtualBox, **version 1.6.5** (current)
+- [Ansible](http://docs.ansible.com/intro_installation.html), again (as it happens) **v1.6.5** or higher  
+
+Note that Ubuntu may ship with outdated versions, so `apt-get install` will *not* suffice — instead, follow the instructions on developers’ homepage to get the most recent stable release.
+
+Earlier version *may* work, but no guarantees; Vagrant `< v1.5` and Ansible `v1.5.4` are known *not* to work.
+Development is done against Vagrant *stable* and Ansible *HEAD*.
+
 Quickstart
 ----------
 
 If you know what you want, this will probably be enough get you going. If not, please follow the Guide below.
 
-- dependencies: [Vagrant][vagrant-dl] with VirtualBox, [Ansible][ansible-dl]
+- install the [dependencies](https://github.com/tjanson/rpi-cross/blob/master/README.md#requirements) (note the version requirements)
 - choose between building your own toolchain with crosstool-NG, or using a prebuilt one:
   - option A (*default*): [the prebuilt toolchain][prebuilt-dl] will be downloaded automatically  
     If you substitute your own tarball, make sure to match the folder structure.
